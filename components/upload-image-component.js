@@ -6,10 +6,9 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
   const render = () => {
     element.innerHTML = `
   <div class="upload=image">
-      ${
-        imageUrl
-          ? `
-          <div class="file-upload-image-conrainer">
+      ${ imageUrl
+        ? `
+          <div class="file-upload-image-container">
             <img class="file-upload-image" src="${imageUrl}">
             <button class="file-upload-remove-button button">Заменить фото</button>
           </div>
