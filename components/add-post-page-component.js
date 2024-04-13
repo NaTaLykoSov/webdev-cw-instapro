@@ -50,6 +50,8 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
     const descriptionUser = document.getElementById("description");
     
+   
+
     renderUploadImageComponent({
       element: appEl.querySelector(".upload-image-container"),
       onImageUrlChange(newImageUrl) {
@@ -58,12 +60,16 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     });
 
     document.getElementById("add-button").addEventListener("click", () => {
+      descriptionUser.value = descriptionUser.value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
       if (!descriptionUser.value) {
         alert("Введите описание фото");
         return;
       }
-      
-      onAddPostClick({
+   onAddPostClick({
         description: descriptionUser.value
           .replaceAll("&", "&amp;")
           .replaceAll("<", "&lt;")

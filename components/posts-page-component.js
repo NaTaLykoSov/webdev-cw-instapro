@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { getToken, posts, goToPage } from "../index.js";
+import { getToken, posts, goToPage, user } from "../index.js";
 import { likeChange } from "../api.js";
 import { timeAgo } from "../helpers.js";
 
@@ -38,6 +38,7 @@ export function renderPostsPageComponent({ appEl }) {
     )
   })
 
+ 
   const appHtml = `
               <div class="page-container">
                 <div class="header-container"></div>
@@ -47,6 +48,7 @@ export function renderPostsPageComponent({ appEl }) {
               </div>`;
 
   appEl.innerHTML = appHtml;
+  console.log(user);
 
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
@@ -66,6 +68,10 @@ export function renderPostsPageComponent({ appEl }) {
 function renderLike() {
   for (let likesButtons of document.querySelectorAll(".like-button")) {
     likesButtons.addEventListener("click", () => {
+      if (!user) {
+        alert("Только зарегистрированные пользователи могут ставить лайки");
+        return;;
+      };
       const postId = likesButtons.dataset.id
 
       const likePosition = (likesButtons.dataset.like == "true") ? "dislike" : "like";
@@ -81,7 +87,7 @@ function renderLike() {
             <img src="./assets/images/${likeSvg}">
           </button>
           <p class="post-likes-text">
-            Нравится: <strong>${post.likes.length}</strong>
+            Нравится: <strong>${likeUsers(post.likes.length)}</strong>
           </p>
         </div>`;
       renderLike();
@@ -89,3 +95,11 @@ function renderLike() {
     });
   }
 }
+
+function likeUsers (users){
+  if (users===1) {return "Нравится "+user.name};
+  if (users===0) {return ""};
+  if (users>1) {return "Нравится "+user.name+" и еще "+ (users-1)};
+}
+
+
